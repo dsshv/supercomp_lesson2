@@ -1,12 +1,13 @@
 import paramiko
 import os
+import lesson2.graphs as l2
 
 SERVER_DIR = '/home/student/Students/Shevtsov/lesson2/'
 HOME_DIR = '/home/dsshv/PycharmProjects/supercomp_lesson2/'
 
 FDM_DIR = '/home/student/Students/Shevtsov/lesson2/fdmdir/'
-FDM_FILE = '/home/dsshv/PycharmProjects/supercomp_lesson2/fdmfile.txt'
-IN_FILE = '/home/dsshv/PycharmProjects/supercomp_lesson2/in.txt'
+FDM_FILE = '/home/dsshv/PycharmProjects/supercoputers_software/fdmfile.txt'
+IN_FILE = '/home/dsshv/PycharmProjects/supercoputers_software/in.txt'
 
 
 def set_ssh_connection():
@@ -22,7 +23,6 @@ def set_ssh_connection():
 
 def sftp_connection_op(ssh_connection):
     sftp = ssh_connection.open_sftp()
-    # ssh_connection.exec_command(f'cd ./{SERVER_DIR}')
     file_to_upload = './test.txt'
     file_to_download = f'{SERVER_DIR}test2.txt'
     place_to_save = 'test2.txt'
@@ -35,8 +35,6 @@ def sftp_connection_op(ssh_connection):
     sftp.remove(f'{SERVER_DIR}/text3.txt')
     sftp.remove(f'{SERVER_DIR}/text5.txt')
     sftp.rename(f'{SERVER_DIR}/text4.txt', f'{SERVER_DIR}/text5.txt')
-
-    # sftp.mkdir(f'{SERVER_DIR}/new_dir/')
 
     print('sftp op done')
     sftp.close()
@@ -98,9 +96,34 @@ def copy_and_edit_files(ssh_connection):
             with open(f'./{name}', 'w') as new_file:
                 new_file.writelines(all_lines)
                 new_file.close()
+    file.close()
+
+    file = open(f'./fdmfile.txt', 'r+')
+    lines = file.readlines()
+
+    for name in file_names:
+        lines.append(name + '\n')
+    lines[0] = str(
+        len(file_names) + 1
+    ) + '\n'
+    file.close()
+
+    file = open(f'./fdmfile.txt', 'w')
+    file.writelines(lines)
+    file.close()
+
+    sftp = ssh_connection.open_sftp()
+    # sftp.mkdir(FDM_DIR)
+    sftp.put(FDM_FILE, f'{FDM_DIR}/fdmfile.txt')
+    sftp.put(IN_FILE, f'{FDM_DIR}/in.txt')
+    sftp.put(IN_FILE, f'{FDM_DIR}/in-2.txt')
+    sftp.put(IN_FILE, f'{FDM_DIR}/in-3.txt')
+    sftp.put(IN_FILE, f'{FDM_DIR}/in-4.txt')
+    stdin, stdout, stderr = ssh_connection.exec_command(f'cd {FDM_DIR};'
+                                                        f' run-cluster fdmnes -n 1 -j SHEVTSOV -e dshevtsov@sfedu.ru')
+    sftp.close()
 
 
-    # sftp = ssh_connection.open_sftp()
 
 
 
@@ -112,5 +135,6 @@ if __name__ == '__main__':
     #os_op(ssh)
     #run_cluster(ssh)
     #get_fdm(ssh)
-    copy_and_edit_files(ssh)
+    #copy_and_edit_files(ssh)
     ssh.close()
+    l2.graph('out.txt')
