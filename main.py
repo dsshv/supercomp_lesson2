@@ -3,22 +3,11 @@ import os
 import lesson2.graphs as l2
 
 SERVER_DIR = '/home/student/Students/Shevtsov/lesson2/'
-HOME_DIR = '/home/dsshv/PycharmProjects/supercomp_lesson2/'
+HOME_DIR = '/home/dsshv/PycharmProjects/supercoputers_software/'
 
 FDM_DIR = '/home/student/Students/Shevtsov/lesson2/fdmdir/'
 FDM_FILE = '/home/dsshv/PycharmProjects/supercoputers_software/fdmfile.txt'
 IN_FILE = '/home/dsshv/PycharmProjects/supercoputers_software/in.txt'
-
-
-def set_ssh_connection():
-    ssh_connection = paramiko.SSHClient()
-    ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh_connection.connect(
-        hostname='195.208.250.3',
-        username='student',
-        password='Xanes2000'
-    )
-    return ssh_connection
 
 
 def sftp_connection_op(ssh_connection):
@@ -137,4 +126,5 @@ if __name__ == '__main__':
     #get_fdm(ssh)
     #copy_and_edit_files(ssh)
     ssh.close()
-    l2.graph('out.txt')
+    data = l2.get_dataframe_from_file('out.txt', 2)
+    print(data)
