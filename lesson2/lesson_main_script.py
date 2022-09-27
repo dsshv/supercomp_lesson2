@@ -29,14 +29,28 @@ def lesson_2():
             inplace=True
         )
         plt.plot(dataframe['Energy'], dataframe['<xanes>'])
-        plt.show()
+        # plt.show()
 
-        min_y = dataframe['<xanes>'].min()
-        dataframe['<xanes>'] -= min_y
-        max_y = dataframe['<xanes>'].max()
-        dataframe['<xanes>'] /= max_y
+        dataframe2 = dataframe
+        min_y = dataframe2['<xanes>'].min()
+        dataframe2['<xanes>'] -= min_y
+        max_y = dataframe2['<xanes>'].max()
+        dataframe2['<xanes>'] /= max_y
+        plt.plot(dataframe2['Energy'], dataframe2['<xanes>'])
+        # plt.show()
 
-        plt.plot(dataframe['Energy'], dataframe['<xanes>'])
+        dataframe3 = dataframe2
+        dataframe3['<xanes>'] += 1
+        plt.plot(dataframe3['Energy'], dataframe3['<xanes>'])
+
+        dataframe4 = dataframe2
+        dataframe4['<xanes>'] += 1
+        plt.plot(dataframe4['Energy'], dataframe4['<xanes>'])
+        # plt.show()
+
+        dataframe5 = dataframe2
+        dataframe5['<xanes>'] += 1
+        plt.plot(dataframe5['Energy'], dataframe5['<xanes>'])
         plt.show()
 
     normalize_task()
