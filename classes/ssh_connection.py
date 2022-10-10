@@ -47,13 +47,14 @@ class Connection:
         sftp.rename(file_old_name, file_new_name)
         sftp.close()
 
-    def exec(self, command: str, no_output: bool = False):
+    def exec(self, command: str, print_out: bool = True):
         stdin, stdout, stderr = self.connection.exec_command(command)
-        if stderr:
+        if len(stderr.readlines()) > 0:
             error = stderr.readlines()
             print(error)
             return
-        if no_output:
-            return
         output = stdout.readlines()
-        print(output)
+        if print_out:
+            print(output)
+        return output
+

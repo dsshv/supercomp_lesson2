@@ -1,5 +1,5 @@
 from config import SERVER_DIR, HOME_DIR, SERVER_HOSTNAME, SERVER_PASSWORD, SERVER_USERNAME
-from instruments.ssh_connection import Connection
+from classes.ssh_connection import Connection
 
 
 def lesson_1():

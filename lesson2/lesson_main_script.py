@@ -1,9 +1,4 @@
-import altair
-
-from instruments.dataframe_instruments import get_dataframe_from_file
-import pandas as pd
-import altair as alt
-import seaborn as sns
+from utils.dataframe_utils import get_dataframe_from_file
 
 import matplotlib.pyplot as plt
 
