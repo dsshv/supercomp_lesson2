@@ -48,6 +48,7 @@ class Pdf:
             print(NameError)
 
     def __txt_to_pdf(self, txts: list[str], skip_before: int = 0, skip_after: int = 0, sep: str = ' '):
+
         try:
             for name in txts:
                 df = get_dataframe_from_file(name)
