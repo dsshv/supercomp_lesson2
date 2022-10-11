@@ -23,6 +23,7 @@ def task_main():
               'Allowed folder names: \n')
         for name in VALID_FOLDERS_NAMES:
             print(name)
+        input_dir = input('Input folder name. Leave it empty to parse all folders')
 
     parsed_dir = Directory(f'{LESSON_DIR}{input_dir}/')
     parsed_dir.ls()
