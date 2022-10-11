@@ -17,6 +17,7 @@ def get_dataframe_from_file(filename: str,
         lines.remove(lines[-1])
 
     for i in range(len(lines)):
+        lines[i] = lines[i].replace('   ', ' ')
         is_spaces = lines[i].find(' ')
         if is_spaces == -1:
             split_line = lines[i].split(sep)

@@ -3,6 +3,7 @@ from PyPDF4 import PdfFileMerger
 from pathlib import Path
 import matplotlib.pyplot as plt
 from utils.dataframe_utils import get_dataframe_from_file
+import aspose.words as aw
 
 class Pdf:
 
@@ -36,22 +37,23 @@ class Pdf:
             pdf_merger = PdfFileMerger()
             i = 1
             for p in pdfs:
-                print(p)
+                #print(p)
                 pdf_merger.append(p)
-                # with Path(self.place_to_save).open(mode="wb") as output_file:
-                #     pdf_merger.write(output_file)
-                #
             pdf_merger.write(self.place_to_save)
+            with Path(self.place_to_save).open(mode="wb") as output_file:
+                pdf_merger.write(output_file)
             pdf_merger.close()
 
         except NameError:
             print(NameError)
 
-    def __txt_to_pdf(self, txts: list[str], skip_before: int = 0, skip_after: int = 0, sep: str = ' '):
+    def __txt_to_pdf(self, txts: list[str]):
 
         try:
+            skip_before: int = int(input("Input num of strings to skip before. Default = 0. Skip_before:: "))
+            skip_after: int = int(input("Input num of strings to skip after. Default = 0. Skip_after: "))
             for name in txts:
-                df = get_dataframe_from_file(name)
+                df = get_dataframe_from_file(name, skip_before, skip_after)
                 df.plot()
                 plt.savefig(f"/tmp/name_{name}.pdf", format="pdf", bbox_inches="tight")
             pdf_merger = PdfFileMerger()
@@ -60,6 +62,24 @@ class Pdf:
             name = self.__create_pdf_name()
             with Path(self.place_to_save).open(mode="wb") as output_file:
                 pdf_merger.write(output_file)
+        except NameError:
+            print(NameError)
+
+    def __image_to_pdf(self, images: list[str]):
+
+        try:
+            for image in images:
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc)
+
+                builder.insert_image(image)
+                doc.save(f"/tmp/name_{image}.pdf")
+        pdf_merger = PdfFileMerger()
+        for name in txts:
+            pdf_merger.append(f"/tmp/name_{image}.pdf")
+        name = self.__create_pdf_name()
+        with Path(self.place_to_save).open(mode="wb") as output_file:
+            pdf_merger.write(output_file)
         except NameError:
             print(NameError)
 
