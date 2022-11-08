@@ -30,10 +30,20 @@ def get_dataframe_from_file(filename: str,
             line = lines[i].replace(',', '.').replace('\n', '')
             split_line = line.split(sep)
             print(split_line)
-            if split:
-                lines[i] = split_line[1::]
-            else:
-                lines[i] = split_line
+            # if split:
+            #     lines[i] = split_line[1::]
+            # else:
+            #     lines[i] = split_line
+
+            #
+            #   fix for task 6
+            #
+            #
+
+            if len(split_line) == 5:
+                lines[i] = [split_line[2],split_line[4]]
+            else: 
+                lines[i] = [split_line[1],split_line[3]]
             # print('box 2: ', lines)
 
     # print(lines)

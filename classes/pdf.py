@@ -74,12 +74,12 @@ class Pdf:
 
                 builder.insert_image(image)
                 doc.save(f"/tmp/name_{image}.pdf")
-        pdf_merger = PdfFileMerger()
-        for name in txts:
-            pdf_merger.append(f"/tmp/name_{image}.pdf")
-        name = self.__create_pdf_name()
-        with Path(self.place_to_save).open(mode="wb") as output_file:
-            pdf_merger.write(output_file)
+            pdf_merger = PdfFileMerger()
+            for name in txts:
+                pdf_merger.append(f"/tmp/name_{image}.pdf")
+            name = self.__create_pdf_name()
+            with Path(self.place_to_save).open(mode="wb") as output_file:
+                pdf_merger.write(output_file)
         except NameError:
             print(NameError)
 
