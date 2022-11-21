@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
+import re
 
 
 def get_dataframe_from_file(filename: str,
-                            sep: str = ' ',
                             skip_before: int = 0,
-                            skip_after: int = 0,
-                            split: bool = False):
+                            skip_after: int = 0
+                            ):
     file = open(f'{filename}', 'r+')
     lines = file.readlines()
     file.close()
@@ -17,36 +17,16 @@ def get_dataframe_from_file(filename: str,
         lines.remove(lines[-1])
 
     for i in range(len(lines)):
-        lines[i] = lines[i].replace('   ', ' ')
-        is_spaces = lines[i].find(' ')
-        if is_spaces == -1:
-            split_line = lines[i].split(sep)
-            for l in range(len(split_line)):
-                replacer = split_line[l].replace(',', '.')
-                split_line[l] = replacer
-            lines[i] = split_line
-            print('box 1: ', lines)
-        else:
-            line = lines[i].replace(',', '.').replace('\n', '')
-            split_line = line.split(sep)
-            print(split_line)
-            # if split:
-            #     lines[i] = split_line[1::]
-            # else:
-            #     lines[i] = split_line
+        lines[i] = lines[i].replace("   ", " ")
+        lines[i] = lines[i].replace("  ", " ")
+        split_line = re.split(" |,|\n", lines[i])
+        lines[i] = []
+        for elem in split_line:
+            if elem == ' ' or elem == '':
+                continue
+            lines[i].append(elem)
 
-            #
-            #   fix for task 6
-            #
-            #
-
-            if len(split_line) == 5:
-                lines[i] = [split_line[2],split_line[4]]
-            else: 
-                lines[i] = [split_line[1],split_line[3]]
-            # print('box 2: ', lines)
-
-    # print(lines)
+    print(lines)
     lines_list = np.array(lines, np.float)
     data = pd.DataFrame(lines_list)
 
